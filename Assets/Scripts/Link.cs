@@ -8,7 +8,7 @@ public class Link : MonoBehaviour
 	public void OpenChannel()
 	{
 		#if !UNITY_EDITOR
-		openWindow("www.brisk.ie");
+		openWindow("https://jd-tu.github.io/game/");
 		#endif
 	}
 
