@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     private AudioSource playerAudio;
     public ParticleSystem explosionParticle;
     public AudioClip crashSound;
-    private GameObject prefabs;
 
     private float speed = 30.0f;
     private float turnSpeed = 50.0f;
@@ -32,24 +31,23 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up, Time.deltaTime * turnSpeed * horizontalInput);
     }
     
-    private void OnCollisionEnter(Collision collision)
+    // private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
         // if(collision.gameObject.CompareTag("Ground")){
         //     isOnGround = true;
         //     dirtParticle.Play();
         // } else 
-        if(collision.gameObject.CompareTag("Diamond")){
-            Debug.Log("game over");
-            prefabs = collision.gameObject;
-        Destroy(prefabs);
-        // Destroy(other.gameObject);
+        if(other.gameObject.CompareTag("Diamond")){
+            explosionParticle.transform.position = this.transform.position;
+            explosionParticle.Play();
+            playerAudio.PlayOneShot(crashSound, 1.0f);
+            Destroy(other.gameObject);
 
             // gameOver = true;
             // playerAnim.SetBool("Death_b", true);
             // playerAnim.SetInteger("DeathType_int", 1);
-            explosionParticle.Play();
             // dirtParticle.Stop();
-            playerAudio.PlayOneShot(crashSound, 1.0f);
         }
     }
 }
