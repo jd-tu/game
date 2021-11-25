@@ -31,18 +31,19 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up, Time.deltaTime * turnSpeed * horizontalInput);
     }
     
-    // private void OnCollisionEnter(Collision collision)
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision collision)
     {
         // if(collision.gameObject.CompareTag("Ground")){
         //     isOnGround = true;
         //     dirtParticle.Play();
         // } else 
-        if(other.gameObject.CompareTag("Diamond")){
-            explosionParticle.transform.position = this.transform.position;
+        if(collision.gameObject.CompareTag("Diamond")){
+            // explosionParticle.transform.position = this.transform.position;
             explosionParticle.Play();
+            Debug.Log("bomb over");
+
             playerAudio.PlayOneShot(crashSound, 1.0f);
-            Destroy(other.gameObject);
+            Destroy(collision.gameObject);
 
             // gameOver = true;
             // playerAnim.SetBool("Death_b", true);
