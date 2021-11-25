@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource playerAudio;
     public ParticleSystem explosionParticle;
     public AudioClip crashSound;
+    private GameObject prefabs;
 
     private float speed = 30.0f;
     private float turnSpeed = 50.0f;
@@ -39,6 +40,10 @@ public class PlayerController : MonoBehaviour
         // } else 
         if(collision.gameObject.CompareTag("Diamond")){
             Debug.Log("game over");
+            prefabs = collision.gameObject;
+        Destroy(prefabs);
+        // Destroy(other.gameObject);
+
             // gameOver = true;
             // playerAnim.SetBool("Death_b", true);
             // playerAnim.SetInteger("DeathType_int", 1);
