@@ -12,7 +12,17 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
 
     public Button restartButton;
-    // public GameObject titleScreen;
+    public GameObject titleScreen;
+    public GameObject[] DiamondPrefabs;
+    public GameObject player;
+
+    // private float spawnRangeX = 920;
+    // private float spawnPosZ = 600;
+    private float startDelay = 3;
+    // private float spawnInterval = 3f;  
+    private float playerXpos;
+
+
 
     private int score;
     private float spawnRate = 1.0f;
@@ -21,15 +31,18 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isGameActive = true;
-        score = 0;
-        UpdateScore(0);
+        // gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
+        // player = GameObject.Find("Player");
+
+        // Debug.Log(gameManager.isGameActive);
+        // StartCoroutine(SpawnTarget());            
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        playerXpos = player.transform.position.x + 300;      
     }
      
     public void UpdateScore(int scoreToAdd)
@@ -43,11 +56,26 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = true;
         score = 0;
+        UpdateScore(0);
+
+        player = GameObject.Find("Player");
         spawnRate /= difficulty;
         
-        // StartCoroutine(SpawnTarget());
+        StartCoroutine(SpawnTarget());
         UpdateScore(0);
-        // titleScreen.gameObject.SetActive(false);
+        titleScreen.gameObject.SetActive(false);
+    }
+    
+    IEnumerator SpawnTarget()
+    {
+        while(isGameActive)
+        {
+            yield return new WaitForSeconds(startDelay);
+            int index = Random.Range(0, DiamondPrefabs.Length);
+            Vector3 spawnPos = new Vector3(Random.Range((playerXpos - 200), playerXpos), 300, Random.Range(630, 660));
+
+            Instantiate(DiamondPrefabs[index], spawnPos, DiamondPrefabs[index].transform.rotation);
+        }
     }
 
     public void GameOver()
@@ -59,8 +87,6 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        isGameActive = true;
     }
 }
