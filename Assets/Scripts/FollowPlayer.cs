@@ -5,10 +5,20 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
     public GameObject player;
+    private GameManager gameManager;
+
     private Vector3 offset = new Vector3(-30, 30, 0);
+
+ void Start()
+    {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+    }
 
     void LateUpdate()
     {
-        transform.position = player.transform.position + offset;
+        if(gameManager.isGameActive)
+        {
+            transform.position = player.transform.position + offset;
+        }
     }
 }
