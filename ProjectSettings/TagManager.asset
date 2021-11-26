@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Diamond
+  - Animal
   layers:
   - Default
   - TransparentFX

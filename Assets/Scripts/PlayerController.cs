@@ -35,14 +35,14 @@ public class PlayerController : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        // if(collision.gameObject.CompareTag("Ground")){
-        //     isOnGround = true;
-        //     dirtParticle.Play();
-        // } else 
-        if(collision.gameObject.CompareTag("Diamond")){
+        if(collision.gameObject.CompareTag("Animal")){
+            Debug.Log("Game over Animal died");
+            // isOnGround = true;
+            // dirtParticle.Play();
+        } else if(collision.gameObject.CompareTag("Diamond")){
             // explosionParticle.transform.position = this.transform.position;
             explosionParticle.Play();
-            Debug.Log("bomb over");
+            Debug.Log("bomb explosion");
 
             playerAudio.PlayOneShot(crashSound, 1.0f);
             Destroy(collision.gameObject);
