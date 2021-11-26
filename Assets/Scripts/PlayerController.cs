@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private GameManager gameManager;
     private Rigidbody playerRb; 
     private AudioSource playerAudio;
     public ParticleSystem explosionParticle;
@@ -13,12 +14,14 @@ public class PlayerController : MonoBehaviour
     private float turnSpeed = 50.0f;
     private float horizontalInput;
     private float forwardInput;
+    public int pointValue;
     // public bool isGameActive;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody>();
         playerAudio = GetComponent<AudioSource>();
     }
@@ -35,22 +38,26 @@ public class PlayerController : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Animal")){
-            Debug.Log("Game over Animal died");
-            // isOnGround = true;
-            // dirtParticle.Play();
-        } else if(collision.gameObject.CompareTag("Diamond")){
-            // explosionParticle.transform.position = this.transform.position;
-            explosionParticle.Play();
-            Debug.Log("bomb explosion");
+        if(gameManager.isGameActive)
+        {
+            if(collision.gameObject.CompareTag("Animal")){
+                gameManager.GameOver();
 
-            playerAudio.PlayOneShot(crashSound, 1.0f);
-            Destroy(collision.gameObject);
+                // isOnGround = true;
+                // dirtParticle.Play();
+            } else if(collision.gameObject.CompareTag("Diamond")){
+                // explosionParticle.transform.position = this.transform.position;
 
-            // gameOver = true;
-            // playerAnim.SetBool("Death_b", true);
-            // playerAnim.SetInteger("DeathType_int", 1);
-            // dirtParticle.Stop();
+                gameManager.UpdateScore(pointValue);
+                explosionParticle.Play();
+                playerAudio.PlayOneShot(crashSound, 1.0f);
+                Destroy(collision.gameObject);
+
+                // gameOver = true;
+                // playerAnim.SetBool("Death_b", true);
+                // playerAnim.SetInteger("DeathType_int", 1);
+                // dirtParticle.Stop();
+            }
         }
     }
 }
